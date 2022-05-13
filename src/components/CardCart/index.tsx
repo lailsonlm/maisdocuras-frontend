@@ -24,11 +24,7 @@ type ProductUpdate = {
           url: string,
         }
       }
-    },
-    typesTaste: {
-      id: number;
-      types: string;
-    }[]
+    }
   }
 }
 
