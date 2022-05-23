@@ -20,12 +20,12 @@ export default function Profile() {
     <div className="min-h-[calc(100vh-6rem)] bg-pink-300">
       <Header />
       <div className="flex flex-col min-h-full items-center justify-center">
-        <div className="max-w-md w-full my-16 flex flex-col items-center justify-center px-4 sm:px-0">
+        <div className="max-w-md w-full my-10 sm:my-16 flex flex-col items-center justify-center px-4 sm:px-0">
           <div className="max-w-md w-full flex items-center justify-end">
             <button 
               type="button" 
               onClick={handleSignOut}
-              className="text-brown-400 font-semibold hover:brightness-110 transition-all duration-500"
+              className="text-brown-400 text-xs sm:text-sm font-semibold hover:brightness-110 transition-all duration-500"
             >
               Sair da minha conta
             </button>

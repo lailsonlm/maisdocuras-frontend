@@ -62,7 +62,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const notifySucess = () => toast('Produto adicionado à cestinha', {
     position: "top-center",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -90,7 +90,7 @@ export function CartProvider({ children }: CartProviderProps) {
       if(amount > stockAmount) {
         toast.error('Quantidade solicitada fora de estoque', {
           position: "bottom-center",
-          autoClose: 5000,
+          autoClose: 3000,
         });
 
         return;
@@ -117,7 +117,7 @@ export function CartProvider({ children }: CartProviderProps) {
     } catch {
       toast.error('Erro na adição do produto', {
         position: "bottom-center",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     }
   };
@@ -140,7 +140,7 @@ export function CartProvider({ children }: CartProviderProps) {
     } catch {
       toast.error('Erro na remoção do produto', {
         position: "bottom-center",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     }
   };
@@ -160,7 +160,7 @@ export function CartProvider({ children }: CartProviderProps) {
       if(amount > stockAmount) {
         toast.error('Quantidade solicitada fora de estoque', {
           position: "bottom-center",
-          autoClose: 5000,
+          autoClose: 3000,
         });
 
         return
@@ -182,7 +182,7 @@ export function CartProvider({ children }: CartProviderProps) {
     } catch {
       toast.error('Erro na alteração de quantidade do produto', {
         position: "bottom-center",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     }
   };

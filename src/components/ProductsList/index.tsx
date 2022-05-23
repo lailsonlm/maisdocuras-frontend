@@ -9,7 +9,7 @@ export function ProductsList() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   
   return (
-    <div className="max-w-2xl mx-auto py-16 px-4 sm:px-6 lg:max-w-7xl">
+    <div className="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:max-w-7xl">
       <h2 className="sr-only">Produtos</h2>
       
       <div className="flex h-24 flex-nowrap gap-x-2 sm:gap-x-4 items-center overflow-x-auto">

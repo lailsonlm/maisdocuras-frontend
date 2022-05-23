@@ -10,11 +10,23 @@ import { CardCart } from "../components/CardCart"
 import { formatPrice } from "../util/format"
 import { AuthContext } from "../context/AuthContext"
 import { useRouter } from "next/router"
+import { api } from "../services/api"
+import { GetStaticProps } from "next"
 
-export default function Cart() {
+interface CartProps {
+  shipping: {
+    attributes: {
+      district: string;
+      city: string;
+      price: number;
+    }
+  }[]
+}
+
+export default function Cart({ shipping }: CartProps) {
   const router = useRouter()
   const { cart } = useContext(CartContext)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated, userData, phoneNumber } = useContext(AuthContext)
   const [cartItems, setCartItems] = useState<ProductCart[]>([])
 
   const total =
@@ -29,7 +41,6 @@ export default function Cart() {
   }, [cart])
 
   function sendRequest() {
-
     const number = '5581999721377'
     
     const products = cartItems.map((item) => `
@@ -37,14 +48,32 @@ export default function Cart() {
 `  
     )
 
-    const customerData = `*PEDIDO*
-*CLIENTE*: Lailson Sobral
-*ENDEREÇO*: Rua Antonio Alves de Oliveira, 29
-*BAIRRO*: Paratibe
-*CIDADE*: Paulista
-*CONTATO*: (81) 97913-2765`
+    const customerData = `*MAIS DOÇURAS - DELIVERY*
 
-    const message = `${customerData}\n${products}\n\n*TOTAL A PAGAR*: ${total}`
+*CLIENTE*: ${userData?.name}
+*ENDEREÇO*: ${userData?.street}, ${userData?.houseNumber}
+*BAIRRO*: ${userData?.district}
+*CIDADE*: ${userData?.city}
+*COMPLEMENTO*: ${userData?.complement}
+*PONTO DE REF.:*: ${userData?.referencePoint}
+*CONTATO*: ${phoneNumber}`
+
+    const shippingData = shipping.find((data) => {
+      if(data.attributes.district === userData?.district && data.attributes.city === userData?.city) {
+        return data
+      }
+    })
+
+    const shippingPrice = shippingData ? formatPrice(shippingData.attributes.price)  : ''
+
+    const sumTotalProducts =
+      cartItems.reduce((sumTotal, product) => {
+        return (sumTotal + product.attributes.price * product.amount)
+      }, 0)
+
+    const totalPayable = formatPrice(sumTotalProducts + (shippingData ? shippingData.attributes.price : 0)) 
+
+    const message = `${customerData}\n${products}\n\n*TOTAL PEDIDO*: ${total}\n\n*+ FRETE*: ${shippingPrice}\n*TOTAL A PAGAR*: ${totalPayable}`
 
     if(isAuthenticated) {
       const target = `https://api.whatsapp.com/send?phone=${encodeURIComponent(number)}&text=${encodeURIComponent(message)}`
@@ -52,6 +81,10 @@ export default function Cart() {
     } else {
       router.push('/signin')
     }
+  }
+
+  function registerProfile() {
+    router.push('/profile')
   }
 
   return (
@@ -84,7 +117,7 @@ export default function Cart() {
                   <p>{total}</p>
                 </div>
                 <button 
-                  onClick={sendRequest}
+                  onClick={userData ? sendRequest : registerProfile}
                   className="flex mt-6 w-full p-2 bg-blue-200 rounded-md text-gray-700 font-bold items-center justify-center hover:brightness-110 transition-all duration-500 gap-2">
                   <span className="ml-2">Finalizar compra</span>
                   <IoBagCheckOutline className='w-6 h-6'/> 
@@ -101,4 +134,16 @@ export default function Cart() {
       <Footer />
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const response = await api.get(`shippings`)
+  const shipping = response.data.data
+ 
+  return {
+    props: {
+      shipping,
+    },
+    revalidate: 10, // In seconds
+  }
 }
