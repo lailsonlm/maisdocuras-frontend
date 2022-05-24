@@ -1,26 +1,21 @@
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
 import { Loading } from "../Loading";
 import { useContext, useEffect, useState } from "react";
-import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { dbFirestore } from "../../services/firebase";
 import { AuthContext } from "../../context/AuthContext";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, runTransaction, where } from "firebase/firestore";
+import { addDoc, collection, doc, runTransaction } from "firebase/firestore";
+import { FormSecondaryAdress } from "./FormSecondaryAdress";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
-type DataDoc = {
-  idDoc: string;
-  name: string;
+export type SecondaryAdress = {
   street: string;
   houseNumber: string;
-  complement?: string;
-  referencePoint?: string;
+  complement: string;
+  referencePoint: string;
   district: string;
   city: string;
-  userId: string;
-};
-
+}
 
 export function FormProfile() {
   const [name, setName] = useState<string>('')
@@ -30,7 +25,9 @@ export function FormProfile() {
   const [street, setStreet] = useState<string>('')
   const [complement, setComplement] = useState<string | undefined>('')
   const [referencePoint, setReferencePoint] = useState<string | undefined>('')
-
+  const [isExpandedSecondaryAdress, setIsExpandedSecondaryAdress] = useState(false)
+  const [secondaryAdress, setSecondaryAdress] = useState({} as SecondaryAdress)
+  
   const { userAuth, userData } = useContext(AuthContext)
 
   useEffect(() => {
@@ -90,6 +87,14 @@ export function FormProfile() {
             referencePoint,
             district,
             city,
+            secondaryAdress: {
+              street: secondaryAdress.street,
+              houseNumber: secondaryAdress.houseNumber,
+              complement: secondaryAdress.complement,
+              referencePoint: secondaryAdress.referencePoint,
+              district: secondaryAdress.district,
+              city: secondaryAdress.city,
+            }
           });
 
         });
@@ -116,6 +121,14 @@ export function FormProfile() {
         referencePoint,
         district,
         city,
+        secondaryAdress: {
+          street: secondaryAdress.street,
+          houseNumber: secondaryAdress.houseNumber,
+          complement: secondaryAdress.complement,
+          referencePoint: secondaryAdress.referencePoint,
+          district: secondaryAdress.district,
+          city: secondaryAdress.city,
+        }
       });
       
       toastProfileSave()
@@ -265,6 +278,17 @@ export function FormProfile() {
           onChange={e => setReferencePoint(e.target.value)}
         />
       </div>
+
+      <button
+      type="button"
+        onClick={() => setIsExpandedSecondaryAdress(!isExpandedSecondaryAdress)}
+        className="flex items-center mt-6 sm:mt-4 justify-center appearance-none rounded-md relative text-sm font-medium px-3 py-2 border-2 border-pink-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-400  hover:bg-pink-400 transition-all duration-500"
+      >
+        Cadastrar endereço secundário (Opcional)
+        {isExpandedSecondaryAdress ? <MdExpandLess/> : <MdExpandMore />}
+      </button>
+
+      {isExpandedSecondaryAdress && <FormSecondaryAdress setSecondaryAdress={setSecondaryAdress}/>}
 
       <button 
         type="submit" 

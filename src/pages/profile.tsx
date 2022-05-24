@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import nookies from 'nookies'
 
 import { Footer } from "../components/Footer";
-import { FormProfile } from "../components/FormProfile";
+import { FormProfile } from "../components/Profile/FormProfile";
 import { Header } from "../components/Header";
 import { AuthContext } from "../context/AuthContext";
 

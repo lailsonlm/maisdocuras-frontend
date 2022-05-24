@@ -27,6 +27,14 @@ type UserData = {
   city: string;
   userId: string;
   idDoc: string;
+  secondaryAdress: {
+    street: string;
+    houseNumber: string;
+    complement: string;
+    referencePoint: string;
+    district: string;
+    city: string;
+  }
 };
 
 export const AuthContext = createContext({} as AuthContextType)
