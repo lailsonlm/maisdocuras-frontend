@@ -53,8 +53,8 @@ export function FormSignIn() {
           const user = result.user;
         }).catch((error: FirebaseError) => {
           toast.error('Erro ao validar código. Tente novamente!', {
-            position: "bottom-center",
-            autoClose: 5000,
+            position: "top-center",
+            autoClose: 3000,
           });
 
           setIsLoadingSubmit(false)

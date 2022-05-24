@@ -34,7 +34,7 @@ export type TypePayment = {
 
 export default function Checkout({ shipping }: CartProps) {
   const router = useRouter()
-  const { cart } = useContext(CartContext)
+  const { cart, setCart } = useContext(CartContext)
   const { isAuthenticated, userData, phoneNumber } = useContext(AuthContext)
   const [cartItems, setCartItems] = useState<ProductCart[]>([])
   const [isExpandedAdress, setIsExpandedAdress] = useState(false)
@@ -98,6 +98,10 @@ export default function Checkout({ shipping }: CartProps) {
     if(isAuthenticated) {
       const target = `https://api.whatsapp.com/send?phone=${encodeURIComponent(number)}&text=${encodeURIComponent(message)}`
       window.open(target, 'black')
+
+      window.localStorage.setItem('mais-docuras:cart', JSON.stringify([]))
+      setCart([])
+      router.push('/aftersales')
     } else {
       router.push('/signin')
     }

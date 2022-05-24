@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
 type CartContextData = {
   cart: ProductCart[];
   addProduct: (product: Product) => Promise<void>;
   removeProduct: (product: Product) => void;
+  setCart: Dispatch<SetStateAction<ProductCart[]>>;
   updateProductAmount: (product: ProductCart) => void;
 }
 
@@ -89,7 +90,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
       if(amount > stockAmount) {
         toast.error('Quantidade solicitada fora de estoque', {
-          position: "bottom-center",
+          position: "top-center",
           autoClose: 3000,
         });
 
@@ -116,7 +117,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
     } catch {
       toast.error('Erro na adição do produto', {
-        position: "bottom-center",
+        position: "top-center",
         autoClose: 3000,
       });
     }
@@ -139,7 +140,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
     } catch {
       toast.error('Erro na remoção do produto', {
-        position: "bottom-center",
+        position: "top-center",
         autoClose: 3000,
       });
     }
@@ -159,7 +160,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
       if(amount > stockAmount) {
         toast.error('Quantidade solicitada fora de estoque', {
-          position: "bottom-center",
+          position: "top-center",
           autoClose: 3000,
         });
 
@@ -181,7 +182,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
     } catch {
       toast.error('Erro na alteração de quantidade do produto', {
-        position: "bottom-center",
+        position: "top-center",
         autoClose: 3000,
       });
     }
@@ -189,7 +190,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
 
   return (
-    <CartContext.Provider value={{ cart, addProduct, removeProduct, updateProductAmount }}>
+    <CartContext.Provider value={{ cart, addProduct, removeProduct, updateProductAmount, setCart }}>
       {children}
     </CartContext.Provider>
   )
