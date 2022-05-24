@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BiFoodMenu } from "react-icons/bi";
 import { BsCupStraw } from "react-icons/bs";
 import { GiCupcake, GiPieSlice } from "react-icons/gi";
+import { HiOutlinePlus } from "react-icons/hi";
 import { ButtonCategories } from "../ButtonCategories";
 import { ProductsByCategory } from "../ProductsByCategory";
 
@@ -37,6 +38,12 @@ export function ProductsList() {
           onClick={() => setSelectedCategory('drinks')} 
           isActive={selectedCategory === 'drinks' && true} 
         />
+        <ButtonCategories 
+          title='Combos' 
+          Icon={HiOutlinePlus} 
+          onClick={() => setSelectedCategory('combos')} 
+          isActive={selectedCategory === 'combos' && true} 
+        />
       </div>
 
       {selectedCategory === 'all' ?
@@ -44,6 +51,7 @@ export function ProductsList() {
           <ProductsByCategory category='Doces' />
           <ProductsByCategory category='Salgados' />
           <ProductsByCategory category='Bebidas' />
+          <ProductsByCategory category='Combos' />
         </>
         : selectedCategory === 'candy' ?
           <ProductsByCategory category='Doces' />
@@ -51,6 +59,8 @@ export function ProductsList() {
           <ProductsByCategory category='Salgados' />
         : selectedCategory === 'drinks' ?
           <ProductsByCategory category='Bebidas' />
+        : selectedCategory === 'combos' ?
+          <ProductsByCategory category='Combos' />
         : ''
       }
 
