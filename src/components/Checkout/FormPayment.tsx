@@ -99,16 +99,21 @@ export function FormPayment({ setTypePayment }: FormPaymentProps) {
           />
         </div>
       : formPayment === 'PIX' &&
+      <>
+          <p className="text-brown-400 font-bold mt-6 sm:mt-4">
+            * Favor, enviar comprovante de pagamento!
+          </p>
         <CopyToClipboard text="81979132765">
           <button 
           type="button" 
           onClick={() => notifyCopySucess()}
-          className="group mt-6 sm:mt-4 relative w-full flex justify-center items-center gap-1 py-2 px-4 border border-transparent text-sm font-bold rounded-md text-brown-400 bg-blue-200 hover:brightness-110 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200"
+          className="group mt-2 relative w-full flex justify-center items-center gap-1 py-2 px-4 border border-transparent text-sm font-bold rounded-md text-brown-400 bg-blue-200 hover:brightness-110 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200"
           >
             81979132765
             <IoMdCopy/>
           </button>
         </CopyToClipboard>
+      </>
       }
     </div>
   )

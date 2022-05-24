@@ -22,7 +22,7 @@ export default function AfterSales() {
           <Link href="/">
             <a className="flex w-48 items-center text-brown-400 font-semibold hover:brightness-110 transition-all duration-500">
               <MdArrowBackIosNew />
-              <span className="ml-1 text-md">Voltar para o início</span>
+              <span className="ml-1 text-md">Voltar ao início</span>
             </a>
           </Link>
         </div>
