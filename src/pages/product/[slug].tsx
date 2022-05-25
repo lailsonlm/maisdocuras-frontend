@@ -81,11 +81,12 @@ export default function Product({ product }: ProductProps) {
             </button>
           </div>
         </div>
-
+        {product.attributes.description &&
         <div className="max-w-screen-xl m-auto p-6 sm:px-8">
           <h3 className="text-xl sm:text-3xl font-semibold text-gray-700">Descrição</h3>
           <p className="mt-4 text-md sm:text-lg font-normal text-gray-700 text-justify">{product.attributes.description}</p>
         </div>
+        }
 
       </div>
       <Footer />
