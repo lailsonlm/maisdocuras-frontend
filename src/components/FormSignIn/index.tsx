@@ -19,7 +19,7 @@ export function FormSignIn() {
     setPhone(value)
   }
 
-  function generateRecaptcha() {
+  async function generateRecaptcha() {
     window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
       'size': 'invisible',
     }, firebaseAuth);
@@ -27,7 +27,7 @@ export function FormSignIn() {
 
   async function sendCodeSMS() {
     setIsLoadingSubmit(true)
-    generateRecaptcha();
+    await generateRecaptcha();
 
     const appVerifier = window.recaptchaVerifier
     await signInWithPhoneNumber(firebaseAuth, phoneNumber, appVerifier)
@@ -41,14 +41,14 @@ export function FormSignIn() {
     setIsLoadingSubmit(false)
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     setIsLoadingSubmit(true)
     e.preventDefault();
 
     if(code.length === 6) {
       const confirmationResult = window.confirmationResult
 
-      confirmationResult.confirm(code)
+      await confirmationResult.confirm(code)
         .then((result: any) => {
           const user = result.user;
         }).catch((error: FirebaseError) => {
